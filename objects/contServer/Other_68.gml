@@ -8,7 +8,7 @@ if (async_load[? "port"] == PORT_TCP) {
 	switch(load_type)
 	{		
 		case network_type_data:
-			var data = net_buffer_read(load_buffer)
+			var data = net_buffer_read(load_buffer, load_id)
 			_net_receive_packet(data[0], data[1])
 			break
 		

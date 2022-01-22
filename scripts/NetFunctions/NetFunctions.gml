@@ -37,24 +37,18 @@ function net_buffer_read() {
 /// @param code
 /// @param data* (req: bufferType)
 /// @param bufferType*
-/// @param isUDP*
 function net_client_send() {
 	var code = argument[0]
 	var data = argument_count == 1 ? 0 : argument[1]
 	var bufferType = argument_count == 1 ? BUFFER_TYPE_BOOL : argument[2]
-	var isUDP = argument_count < 5 ? false : argument[4]
 
-	var buffer = buffer_create(32, buffer_grow, 1)
+	var buffer = buffer_create(36, buffer_grow, 1)
 	buffer_seek(buffer, buffer_seek_start, 0)
 	buffer_write(buffer, buffer_u8, bufferType)
 	buffer_write(buffer, buffer_u16, code)
 	buffer_write(buffer, net_buffer_get_type(bufferType), data)
 
-	if (isUDP)
-		network_send_udp(global.socket, global.serverIP, PORT_UDP, buffer, buffer_tell(buffer))
-	else
-		network_send_packet(global.socket, buffer, buffer_tell(buffer))
-			
+	network_send_packet(global.socket, buffer, buffer_tell(buffer))
 	buffer_delete(buffer)
 }
 
@@ -70,7 +64,7 @@ function net_server_send() {
 	var bufferType = argument_count < 4 ? BUFFER_TYPE_BOOL : argument[3]
 	var isUDP = argument_count < 5 ? false : argument[4]
 
-	var buffer = buffer_create(32, buffer_grow, 1)
+	var buffer = buffer_create(36, buffer_grow, 1)
 	buffer_seek(buffer, buffer_seek_start, 0)
 	buffer_write(buffer, buffer_u8, bufferType)
 	buffer_write(buffer, buffer_u16, code)
@@ -97,7 +91,6 @@ function net_server_send() {
 		else
 			network_send_packet(socketID, buffer, buffer_tell(buffer))
 	}
-
 
 	buffer_delete(buffer)
 }

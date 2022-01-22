@@ -1,8 +1,4 @@
-/// @param 
-/// @param data
-function _net_receive_packet(code, pureData) {
-	var socketID = load_id
-	
+function _net_receive_packet(code, pureData, socketID_sender) {
 	var data
 	#region PARSE PARAMETERS
 	var parameterCount = 0
@@ -25,7 +21,12 @@ function _net_receive_packet(code, pureData) {
 		data[0] = argument[1]
 	#endregion
 
-	/*switch(code) {
+	try {
+		/*switch(code) {
 
-	}*/
+		}*/
+	}
+	catch (error) {
+		show_debug_message(error)
+	}
 }
