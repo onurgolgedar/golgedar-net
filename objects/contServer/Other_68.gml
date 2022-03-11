@@ -1,4 +1,5 @@
-if (async_load[? "port"] == PORT_TCP) {
+var port = async_load[? "port"]
+if (port == PORT_TCP or port == PORT_UDP) {
 	load_buffer = async_load[? "buffer"]
 	load_id = async_load[? "id"]
 	load_type = async_load[? "type"]
@@ -9,7 +10,8 @@ if (async_load[? "port"] == PORT_TCP) {
 	{		
 		case network_type_data:
 			var data = net_buffer_read(load_buffer, load_id)
-			_net_receive_packet(data[0], data[1])
+			if (data != undefined)
+				_net_receive_packet(data[0], data[1], load_id, data[2], net_buffer_get_type_reverse(data[3]), async_load)
 			break
 		
 		case network_type_connect:

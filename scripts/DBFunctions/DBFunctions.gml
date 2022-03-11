@@ -141,7 +141,8 @@ function db_set_row_value(table, primaryValue, column, value) {
 		}
 	}
 
-	row[? column] = value
+	if (row != undefined)
+		row[? column] = value
 }
 
 function db_draw_table(table_x, table_y, table, columnCount) {
@@ -166,26 +167,6 @@ function db_draw_table(table_x, table_y, table, columnCount) {
 		}
 	}
 	draw_set_color(c_black)
-}
-	
-function db_convert_row_to_parameters(row) {
-	var parameters = ""
-	var i = 0
-	while (true) {
-		var value = row[? i]
-		if (value != undefined)
-			parameters += string(row[? i])+"|"
-		else {
-			if (string_length(parameters) != 0)
-				parameters = string_delete(parameters, string_length(parameters), 1)
-				
-			break
-		}
-		
-		i++	
-	}
-	
-	return parameters
 }
 
 function db_save_table(table) {
